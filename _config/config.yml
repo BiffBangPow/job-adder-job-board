@@ -1,0 +1,18 @@
+---
+Name: job-adder-job-board
+---
+
+SilverStripe\Control\Director:
+  rules:
+    'authorise-job-adder': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAdderAuthorisationController'
+    'authorise-job-adder/token': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAdderAuthorisationController'
+    'authorise-job-adder/selectboard': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAdderAuthorisationController'
+    'job-alerts': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController'
+    'job-alerts/subscribe': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController'
+    'job-alerts/subscribed': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController'
+    'job-alerts/unsubscribe/$ID': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController'
+    'job-alerts/updatesubscription/$ID': 'BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController'
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - JobAdderJobBoardSiteConfigExtension
