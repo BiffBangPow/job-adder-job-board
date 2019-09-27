@@ -141,12 +141,12 @@ class RunJobAdderSync extends BuildTask
             $portal = $adData['portal'];
             $this->syncJobAdPortalData($portal, $jobAd);
 
-            // if (isset($portal['fields']) || array_key_exists('fields', $portal)) {
-            //
-            //     $fields = $portal['fields'];
-            //     $this->syncJobAdFieldsData($fields, $jobAd);
-            //
-            // }
+            if (isset($portal['fields']) || array_key_exists('fields', $portal)) {
+
+                $fields = $portal['fields'];
+                $this->syncJobAdFieldsData($fields, $jobAd);
+
+            }
 
         }
 
