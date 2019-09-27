@@ -419,6 +419,9 @@ class RunJobAdderSync extends BuildTask
                 $categoryObject = JobCategory::create();
                 $categoryObject->Title = $category['value'];
                 $categoryObject->JobAdderReference = $category['valueId'];
+
+                $this->extend('updateCreateCategory', $categoryObject, $category);
+
                 $categoryObject->write();
             }
             $jobAd->Category = $categoryObject;
