@@ -369,33 +369,32 @@ class RunJobAdderSync extends BuildTask
      */
     private function syncJobAdFieldsData(array $fields, JobAd $jobAd)
     {
-        var_dump($fields);
         $displayLocation = $this->findFieldWithName($fields, 'Display Location');
         $jobAd->DisplayLocation = $displayLocation['value'];
 
-        // $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
-        // $jobAd->DisplaySalary = $displaySalary['value'];
-        //
-        // $currency = $this->findFieldWithName($fields, 'Currency');
-        //
-        // $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
-        // if ($currencyObject === null) {
-        //     $currencyObject = JobCurrency::create();
-        //     $currencyObject->Title = $currency['value'];
-        //     $currencyObject->JobAdderReference = $currency['valueId'];
-        //     $currencyObject->write();
-        // }
-        // $jobAd->Currency = $currencyObject;
-        //
-        // $workType = $this->findFieldWithName($fields, 'Work Type');
-        // $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
-        // if ($workTypeObject === null) {
-        //     $workTypeObject = JobWorkType::create();
-        //     $workTypeObject->Title = $workType['value'];
-        //     $workTypeObject->JobAdderReference = $workType['valueId'];
-        //     $workTypeObject->write();
-        // }
-        // $jobAd->WorkType = $workTypeObject;
+        $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
+        $jobAd->DisplaySalary = $displaySalary['value'];
+
+        $currency = $this->findFieldWithName($fields, 'Currency');
+
+        $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
+        if ($currencyObject === null) {
+            $currencyObject = JobCurrency::create();
+            $currencyObject->Title = $currency['value'];
+            $currencyObject->JobAdderReference = $currency['valueId'];
+            $currencyObject->write();
+        }
+        $jobAd->Currency = $currencyObject;
+
+        $workType = $this->findFieldWithName($fields, 'Work Type');
+        $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
+        if ($workTypeObject === null) {
+            $workTypeObject = JobWorkType::create();
+            $workTypeObject->Title = $workType['value'];
+            $workTypeObject->JobAdderReference = $workType['valueId'];
+            $workTypeObject->write();
+        }
+        $jobAd->WorkType = $workTypeObject;
         //
         // $country = $this->findFieldWithName($fields, 'Country');
         // if ($country !== null) {
