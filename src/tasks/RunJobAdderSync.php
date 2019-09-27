@@ -425,6 +425,8 @@ class RunJobAdderSync extends BuildTask
 
         }
 
+        // todo countries and sub categories sync
+
         //
         // $country = $this->findFieldWithName($fields, 'Country');
         // if ($country !== null) {
