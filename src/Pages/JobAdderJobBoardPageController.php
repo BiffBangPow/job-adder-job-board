@@ -16,8 +16,6 @@ use SilverStripe\ORM\PaginatedList;
 
 class JobAdderJobBoardPageController extends PageController
 {
-    const ITEMS_PER_PAGE = 4;
-
     const SEARCH = 's';
 
     const COUNTRY = 'co';
@@ -119,7 +117,7 @@ class JobAdderJobBoardPageController extends PageController
         $dataList = $dataList->sort('PostedAt', 'DESC');
 
         $paginatedList = new PaginatedList($dataList, $request);
-        $paginatedList->setPageLength(self::ITEMS_PER_PAGE);
+        $paginatedList->setPageLength($this->JobsPerPage);
 
         return $paginatedList;
     }
