@@ -14,11 +14,11 @@ class JobAdderJobBoardPage extends Page
      */
     private static $table_name = 'JobAdderJobBoardPage';
 
-    public static $db = [
+    private static $db = [
         'JobsPerPage' => DBInt::class
     ];
 
-    public static $defaults = [
+    private static $defaults = [
         'JobsPerPage' => 8
     ];
 
