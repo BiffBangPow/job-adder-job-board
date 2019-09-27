@@ -3,7 +3,9 @@
 namespace BiffBangPow\JobAdderJobBoard\DataObjects;
 
 use BiffBangPow\JobAdderJobBoard\Extensions\JobAdderReferenceExtension;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBVarchar;
 
@@ -79,6 +81,14 @@ class JobCategory extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->removeByName('JobAlertSubscriptions');
+        $fields->removeByName('JobAds');
+        $fields->removeByName('SubCategories');
+
+        $fields->addFieldsToTab('Root.Main', [
+            TextField::create('Title', 'Title')->setReadonly(true),
+        ]);
         return $fields;
     }
 
@@ -119,6 +129,6 @@ class JobCategory extends DataObject
      */
     public function canEdit($member = null, $context = [])
     {
-        return false;
+        return true;
     }
 }
