@@ -125,7 +125,7 @@ class RunJobAdderSync extends BuildTask
     {
         $adId = $jobAd['adId'];
 
-        $adData = $this->apiClient->getJobAd($adId);
+        $adDataFromJobBoard = $this->apiClient->getJobAdFromJobBoard($adId);
 
         $jobAd = JobAd::get()->filter(['JobAdderId' => $adId])->first();
 
@@ -133,12 +133,12 @@ class RunJobAdderSync extends BuildTask
             $jobAd = new JobAd();
         }
 
-        $this->syncJobAdBasicData($adData, $jobAd);
-        $this->syncLinksData($adData, $jobAd);
+        $this->syncJobAdBasicData($adDataFromJobBoard, $jobAd);
+        $this->syncLinksData($adDataFromJobBoard, $jobAd);
 
-        if (isset($adData['portal']) || array_key_exists('portal', $adData)) {
+        if (isset($adDataFromJobBoard['portal']) || array_key_exists('portal', $adDataFromJobBoard)) {
 
-            $portal = $adData['portal'];
+            $portal = $adDataFromJobBoard['portal'];
             $this->syncJobAdPortalData($portal, $jobAd);
 
             if (isset($portal['fields']) || array_key_exists('fields', $portal)) {
@@ -151,9 +151,11 @@ class RunJobAdderSync extends BuildTask
 
         }
 
-        // $this->syncConsultantData($adData, $jobAd);
+        $adData = $this->apiClient->getJobAdFromJobBoard($adId);
 
-        $this->extend('updateSyncJobAd', $jobAd, $adData);
+        $this->syncConsultantData($adData, $jobAd);
+
+        $this->extend('updateSyncJobAd', $jobAd, $adDataFromJobBoard);
 
         $jobAd->write();
         $this->totalJobsSynced++;

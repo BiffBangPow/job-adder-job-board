@@ -60,9 +60,20 @@ class JobAdderAPIClient
      * @param $adId
      * @return mixed
      */
-    public function getJobAd($adId)
+    public function getJobAdFromJobBoard($adId)
     {
         $contents = $this->makeGetRequest('/jobboards/' . $this->jobBoardId . '/ads/' . $adId);
+        $ad = json_decode($contents, true);
+        return $ad;
+    }
+
+    /**
+     * @param $adId
+     * @return mixed
+     */
+    public function getJobAd($adId)
+    {
+        $contents = $this->makeGetRequest('/jobads/' . $adId);
         $ad = json_decode($contents, true);
         return $ad;
     }
