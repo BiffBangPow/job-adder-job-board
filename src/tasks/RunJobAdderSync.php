@@ -178,6 +178,12 @@ class RunJobAdderSync extends BuildTask
 
             }
 
+            if (isset($links['applications']) || array_key_exists('applications', $links)) {
+
+                $jobAd->ApplicationLink = $links['applications'];
+
+            }
+
         }
     }
 
