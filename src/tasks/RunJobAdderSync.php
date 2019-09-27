@@ -145,9 +145,6 @@ class RunJobAdderSync extends BuildTask
 
                 $fields = $portal['fields'];
 
-                var_dump($fields);
-                die();
-
                 $this->syncJobAdFieldsData($fields, $jobAd);
 
             }
@@ -372,107 +369,108 @@ class RunJobAdderSync extends BuildTask
      */
     private function syncJobAdFieldsData(array $fields, JobAd $jobAd)
     {
+        var_dump($fields);
         $displayLocation = $this->findFieldWithName($fields, 'Display Location');
         $jobAd->DisplayLocation = $displayLocation['value'];
 
-        $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
-        $jobAd->DisplaySalary = $displaySalary['value'];
-
-        $currency = $this->findFieldWithName($fields, 'Currency');
-
-        $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
-        if ($currencyObject === null) {
-            $currencyObject = JobCurrency::create();
-            $currencyObject->Title = $currency['value'];
-            $currencyObject->JobAdderReference = $currency['valueId'];
-            $currencyObject->write();
-        }
-        $jobAd->Currency = $currencyObject;
-
-        $workType = $this->findFieldWithName($fields, 'Work Type');
-        $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
-        if ($workTypeObject === null) {
-            $workTypeObject = JobWorkType::create();
-            $workTypeObject->Title = $workType['value'];
-            $workTypeObject->JobAdderReference = $workType['valueId'];
-            $workTypeObject->write();
-        }
-        $jobAd->WorkType = $workTypeObject;
-
-        $country = $this->findFieldWithName($fields, 'Country');
-        if ($country !== null) {
-
-            $countryObject = JobCountry::get()->filter(['JobAdderReference' => $country['valueId']])->first();
-            if ($countryObject === null) {
-                $countryObject = JobCountry::create();
-                $countryObject->Title = $country['value'];
-                $countryObject->JobAdderReference = $country['valueId'];
-                $countryObject->write();
-            }
-            $jobAd->Country = $countryObject;
-
-            $countryFields = $country['fields'];
-
-            $location = $this->findFieldWithName($countryFields, 'Location');
-
-            if ($location !== null) {
-                $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
-                if ($locationObject === null) {
-                    $locationObject = JobLocation::create();
-                    $locationObject->Title = $location['value'];
-                    $locationObject->JobAdderReference = $location['valueId'];
-                }
-                $locationObject->Country = $countryObject;
-                $locationObject->write();
-                $jobAd->Location = $locationObject;
-            }
-
-        } else {
-
-            $location = $this->findFieldWithName($fields, 'Location');
-
-            if ($location !== null) {
-                $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
-                if ($locationObject === null) {
-                    $locationObject = JobLocation::create();
-                    $locationObject->Title = $location['value'];
-                    $locationObject->JobAdderReference = $location['valueId'];
-                }
-                $locationObject->write();
-                $jobAd->Location = $locationObject;
-            }
-
-        }
-
-        $category = $this->findFieldWithName($fields, 'Category');
-        if ($category !== null) {
-
-            $categoryObject = JobCategory::get()->filter(['JobAdderReference' => $category['valueId']])->first();
-            if ($categoryObject === null) {
-                $categoryObject = JobCategory::create();
-                $categoryObject->Title = $category['value'];
-                $categoryObject->JobAdderReference = $category['valueId'];
-                $categoryObject->write();
-            }
-            $jobAd->Category = $categoryObject;
-
-            $categoryFields = $category['fields'];
-
-            $subCategory = $this->findFieldWithName($categoryFields, 'Sub-Category');
-
-            if ($subCategory !== null) {
-                $subCategoryObject = JobSubCategory::get()->filter(['JobAdderReference' => $subCategory['valueId']])->first();
-                if ($subCategoryObject === null) {
-                    $subCategoryObject = JobSubCategory::create();
-                    $subCategoryObject->Title = $subCategory['value'];
-                    $subCategoryObject->JobAdderReference = $subCategory['valueId'];
-                }
-                $subCategoryObject->Category = $categoryObject;
-                $subCategoryObject->write();
-                $jobAd->SubCategory = $subCategoryObject;
-            }
-
-        }
+        // $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
+        // $jobAd->DisplaySalary = $displaySalary['value'];
+        //
+        // $currency = $this->findFieldWithName($fields, 'Currency');
+        //
+        // $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
+        // if ($currencyObject === null) {
+        //     $currencyObject = JobCurrency::create();
+        //     $currencyObject->Title = $currency['value'];
+        //     $currencyObject->JobAdderReference = $currency['valueId'];
+        //     $currencyObject->write();
+        // }
+        // $jobAd->Currency = $currencyObject;
+        //
+        // $workType = $this->findFieldWithName($fields, 'Work Type');
+        // $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
+        // if ($workTypeObject === null) {
+        //     $workTypeObject = JobWorkType::create();
+        //     $workTypeObject->Title = $workType['value'];
+        //     $workTypeObject->JobAdderReference = $workType['valueId'];
+        //     $workTypeObject->write();
+        // }
+        // $jobAd->WorkType = $workTypeObject;
+        //
+        // $country = $this->findFieldWithName($fields, 'Country');
+        // if ($country !== null) {
+        //
+        //     $countryObject = JobCountry::get()->filter(['JobAdderReference' => $country['valueId']])->first();
+        //     if ($countryObject === null) {
+        //         $countryObject = JobCountry::create();
+        //         $countryObject->Title = $country['value'];
+        //         $countryObject->JobAdderReference = $country['valueId'];
+        //         $countryObject->write();
+        //     }
+        //     $jobAd->Country = $countryObject;
+        //
+        //     $countryFields = $country['fields'];
+        //
+        //     $location = $this->findFieldWithName($countryFields, 'Location');
+        //
+        //     if ($location !== null) {
+        //         $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
+        //         if ($locationObject === null) {
+        //             $locationObject = JobLocation::create();
+        //             $locationObject->Title = $location['value'];
+        //             $locationObject->JobAdderReference = $location['valueId'];
+        //         }
+        //         $locationObject->Country = $countryObject;
+        //         $locationObject->write();
+        //         $jobAd->Location = $locationObject;
+        //     }
+        //
+        // } else {
+        //
+        //     $location = $this->findFieldWithName($fields, 'Location');
+        //
+        //     if ($location !== null) {
+        //         $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
+        //         if ($locationObject === null) {
+        //             $locationObject = JobLocation::create();
+        //             $locationObject->Title = $location['value'];
+        //             $locationObject->JobAdderReference = $location['valueId'];
+        //         }
+        //         $locationObject->write();
+        //         $jobAd->Location = $locationObject;
+        //     }
+        //
+        // }
+        //
+        // $category = $this->findFieldWithName($fields, 'Category');
+        // if ($category !== null) {
+        //
+        //     $categoryObject = JobCategory::get()->filter(['JobAdderReference' => $category['valueId']])->first();
+        //     if ($categoryObject === null) {
+        //         $categoryObject = JobCategory::create();
+        //         $categoryObject->Title = $category['value'];
+        //         $categoryObject->JobAdderReference = $category['valueId'];
+        //         $categoryObject->write();
+        //     }
+        //     $jobAd->Category = $categoryObject;
+        //
+        //     $categoryFields = $category['fields'];
+        //
+        //     $subCategory = $this->findFieldWithName($categoryFields, 'Sub-Category');
+        //
+        //     if ($subCategory !== null) {
+        //         $subCategoryObject = JobSubCategory::get()->filter(['JobAdderReference' => $subCategory['valueId']])->first();
+        //         if ($subCategoryObject === null) {
+        //             $subCategoryObject = JobSubCategory::create();
+        //             $subCategoryObject->Title = $subCategory['value'];
+        //             $subCategoryObject->JobAdderReference = $subCategory['valueId'];
+        //         }
+        //         $subCategoryObject->Category = $categoryObject;
+        //         $subCategoryObject->write();
+        //         $jobAd->SubCategory = $subCategoryObject;
+        //     }
+        //
+        // }
 
         $this->extend('updateSyncJobAdFieldsData', $jobAd, $fields);
 
