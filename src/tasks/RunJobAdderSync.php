@@ -395,6 +395,35 @@ class RunJobAdderSync extends BuildTask
             $workTypeObject->write();
         }
         $jobAd->WorkType = $workTypeObject;
+
+        $location = $this->findFieldWithName($fields, 'Location');
+
+        if ($location !== null) {
+            $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
+            if ($locationObject === null) {
+                $locationObject = JobLocation::create();
+                $locationObject->Title = $location['value'];
+                $locationObject->JobAdderReference = $location['valueId'];
+            }
+            $locationObject->write();
+            $jobAd->Location = $locationObject;
+        }
+
+        $category = $this->findFieldWithName($fields, 'Category');
+
+        if ($category !== null) {
+
+            $categoryObject = JobCategory::get()->filter(['JobAdderReference' => $category['valueId']])->first();
+            if ($categoryObject === null) {
+                $categoryObject = JobCategory::create();
+                $categoryObject->Title = $category['value'];
+                $categoryObject->JobAdderReference = $category['valueId'];
+                $categoryObject->write();
+            }
+            $jobAd->Category = $categoryObject;
+
+        }
+
         //
         // $country = $this->findFieldWithName($fields, 'Country');
         // if ($country !== null) {
