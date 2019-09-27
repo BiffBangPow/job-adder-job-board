@@ -136,21 +136,21 @@ class RunJobAdderSync extends BuildTask
         $this->syncJobAdBasicData($adData, $jobAd);
         $this->syncLinksData($adData, $jobAd);
 
-        if (isset($adData['portal']) || array_key_exists('portal', $adData)) {
+        // if (isset($adData['portal']) || array_key_exists('portal', $adData)) {
+        //
+        //     $portal = $adData['portal'];
+        //     $this->syncJobAdPortalData($portal, $jobAd);
+        //
+        //     if (isset($portal['fields']) || array_key_exists('fields', $portal)) {
+        //
+        //         $fields = $portal['fields'];
+        //         $this->syncJobAdFieldsData($fields, $jobAd);
+        //
+        //     }
+        //
+        // }
 
-            $portal = $adData['portal'];
-            $this->syncJobAdPortalData($portal, $jobAd);
-
-            if (isset($portal['fields']) || array_key_exists('fields', $portal)) {
-
-                $fields = $portal['fields'];
-                $this->syncJobAdFieldsData($fields, $jobAd);
-
-            }
-
-        }
-
-        $this->syncConsultantData($adData, $jobAd);
+        // $this->syncConsultantData($adData, $jobAd);
 
         $this->extend('updateSyncJobAd', $jobAd, $adData);
 
@@ -310,10 +310,6 @@ class RunJobAdderSync extends BuildTask
             $jobAd->PostedAt = $adData['postedAt'];
         }
 
-        if (isset($adData['postAt']) || array_key_exists('postAt', $adData)) {
-            $jobAd->PostedAt = $adData['postAt'];
-        }
-
         if (isset($adData['updatedAt']) || array_key_exists('updatedAt', $adData)) {
             $jobAd->UpdatedAt = $adData['updatedAt'];
         }
@@ -322,9 +318,6 @@ class RunJobAdderSync extends BuildTask
             $jobAd->ExpiresAt = $adData['expiresAt'];
         }
 
-        if (isset($adData['expireAt']) || array_key_exists('expireAt', $adData)) {
-            $jobAd->ExpiresAt = $adData['expireAt'];
-        }
     }
 
     /**

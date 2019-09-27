@@ -64,8 +64,6 @@ class JobAdderAPIClient
     {
         $contents = $this->makeGetRequest('/jobboards/' . $this->jobBoardId . '/ads/' . $adId);
         $ad = json_decode($contents, true);
-        var_dump($ad);
-        die();
         return $ad;
     }
 
