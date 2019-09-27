@@ -304,12 +304,20 @@ class RunJobAdderSync extends BuildTask
             $jobAd->PostedAt = $adData['postedAt'];
         }
 
+        if (isset($adData['postAt']) || array_key_exists('postAt', $adData)) {
+            $jobAd->PostedAt = $adData['postAt'];
+        }
+
         if (isset($adData['updatedAt']) || array_key_exists('updatedAt', $adData)) {
             $jobAd->UpdatedAt = $adData['updatedAt'];
         }
 
         if (isset($adData['expiresAt']) || array_key_exists('expiresAt', $adData)) {
             $jobAd->ExpiresAt = $adData['expiresAt'];
+        }
+
+        if (isset($adData['expireAt']) || array_key_exists('expireAt', $adData)) {
+            $jobAd->ExpiresAt = $adData['expireAt'];
         }
     }
 
