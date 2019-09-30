@@ -74,8 +74,8 @@ class JobAlertsController extends PageController
         $email->setTo($jobAlertSubscription->EmailAddress);
         $email->setSubject('Subscribed to job alerts from ' . $siteConfig->JobAlertsBrandName);
         $email->setData([
-            'jobAlertSubscription' => $jobAlertSubscription,
-            'brandName'            => $siteConfig->JobAlertsBrandName,
+            'JobAlertSubscription' => $jobAlertSubscription,
+            'BrandName'            => $siteConfig->JobAlertsBrandName,
         ]);
         $email->send();
 
