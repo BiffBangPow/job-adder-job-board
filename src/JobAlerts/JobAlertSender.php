@@ -82,20 +82,28 @@ class JobAlertSender
 
     private function sendJobAlertEmail($jobAlertSubscription, $jobs)
     {
-        echo 'Sending job alert to ' . $jobAlertSubscription->EmailAddress . ' with ' . $jobs->count() . ' jobs';
+        if ($jobs->count() > 0) {
 
-        $siteConfig = SiteConfig::current_site_config();
-        $email = Email::create();
-        $email->setHTMLTemplate('Email\\JobAlertsEmail');
-        $email->setFrom($siteConfig->JobAlertsEmailsFrom, $siteConfig->JobAlertsBrandName);
-        $email->setTo($jobAlertSubscription->EmailAddress);
-        $email->setSubject('New jobs from ' . $siteConfig->JobAlertsBrandName);
-        $email->setData([
-            'JobAlertSubscription' => $jobAlertSubscription,
-            'BrandName'            => $siteConfig->JobAlertsBrandName,
-            'Jobs'                 => $jobs,
-        ]);
-        $email->send();
+            echo 'Sending job alert to ' . $jobAlertSubscription->EmailAddress . ' with ' . $jobs->count() . ' jobs' . PHP_EOL;
+
+            $siteConfig = SiteConfig::current_site_config();
+            $email = Email::create();
+            $email->setHTMLTemplate('Email\\JobAlertsEmail');
+            $email->setFrom($siteConfig->JobAlertsEmailsFrom, $siteConfig->JobAlertsBrandName);
+            $email->setTo($jobAlertSubscription->EmailAddress);
+            $email->setSubject('New jobs from ' . $siteConfig->JobAlertsBrandName);
+            $email->setData([
+                'JobAlertSubscription' => $jobAlertSubscription,
+                'BrandName'            => $siteConfig->JobAlertsBrandName,
+                'Jobs'                 => $jobs,
+            ]);
+            $email->send();
+
+        } else {
+
+            echo 'No jobs to send to ' . $jobAlertSubscription->EmailAddress . ' with ' . $jobs->count() . ' jobs' . PHP_EOL;
+
+        }
     }
 
     /**
