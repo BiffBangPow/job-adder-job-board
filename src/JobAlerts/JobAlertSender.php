@@ -12,7 +12,7 @@ class JobAlertSender
         foreach ($this->getJobAlertSubscriptions() as $jobAlertSubscription) {
 
             $jobs = JobAd::get()->filter([
-                // 'PostedAt:GreaterThan' => $jobAlertSubscription->AlertsLastSent
+                'PostedAt:GreaterThan' => $jobAlertSubscription->AlertsLastSent
             ]);
 
             if ($jobAlertSubscription->Countries()->count() > 0) {
