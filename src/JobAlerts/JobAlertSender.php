@@ -82,6 +82,8 @@ class JobAlertSender
 
     private function sendJobAlertEmail($jobAlertSubscription, $jobs)
     {
+        echo 'Sending job alert to ' . $jobAlertSubscription->EmailAddress . ' with ' . $jobs->count() . ' jobs';
+
         $siteConfig = SiteConfig::current_site_config();
         $email = Email::create();
         $email->setHTMLTemplate('Email\\JobAlertsEmail');
@@ -89,9 +91,9 @@ class JobAlertSender
         $email->setTo($jobAlertSubscription->EmailAddress);
         $email->setSubject('New jobs from ' . $siteConfig->JobAlertsBrandName);
         $email->setData([
-            'jobAlertSubscription' => $jobAlertSubscription,
-            'brandName'            => $siteConfig->JobAlertsBrandName,
-            'jobs'                 => $jobs,
+            'JobAlertSubscription' => $jobAlertSubscription,
+            'BrandName'            => $siteConfig->JobAlertsBrandName,
+            'Jobs'                 => $jobs,
         ]);
         $email->send();
     }

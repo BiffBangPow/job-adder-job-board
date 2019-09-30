@@ -234,6 +234,15 @@ class JobAd extends DataObject
     }
 
     /**
+     * @return string
+     */
+    public function AbsoluteLink()
+    {
+        $jobBoardPage = JobAdderJobBoardPage::get()->first();
+        return $jobBoardPage->AbsoluteLink('job/' . $this->Slug);
+    }
+
+    /**
      * @return mixed
      */
     public function getApplyLink()
