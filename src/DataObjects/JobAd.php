@@ -118,20 +118,20 @@ class JobAd extends DataObject
         $fields->removeByName('ConsultantID');
 
         $fields->addFieldsToTab('Root.Main', [
-            DropdownField::create('CountryID', 'Country', JobCountry::get()->map()->toArray()),
-            DropdownField::create('CategoryID', 'Category', JobCategory::get()->map()->toArray()),
+            DropdownField::create('CountryID', 'Country', JobCountry::get()->map('ID', 'TitleAndReference')->toArray()),
+            DropdownField::create('CategoryID', 'Category', JobCategory::get()->map('ID', 'TitleAndReference')->toArray()),
             DropdownField::create('ConsultantID', 'Consultant', JobConsultant::get()->map('ID', 'getFullName')->toArray()),
         ]);
 
         if ($this->CountryID !== 0) {
             $fields->addFieldsToTab('Root.Main', [
-                DropdownField::create('LocationID', 'Location', $this->Country()->Locations()->map()->toArray()),
+                DropdownField::create('LocationID', 'Location', $this->Country()->Locations()->map('ID', 'TitleAndReference')->toArray()),
             ]);
         }
 
         if ($this->CategoryID !== 0) {
             $fields->addFieldsToTab('Root.Main', [
-                DropdownField::create('SubCategoryID', 'SubCategory', $this->Category()->SubCategories()->map()->toArray()),
+                DropdownField::create('SubCategoryID', 'SubCategory', $this->Category()->SubCategories()->map('ID', 'TitleAndReference')->toArray()),
             ]);
         }
 

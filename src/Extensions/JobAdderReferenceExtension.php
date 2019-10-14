@@ -37,4 +37,12 @@ class JobAdderReferenceExtension extends DataExtension {
         );
         return $fields;
     }
+
+    /**
+     * @return string
+     */
+    public function getTitleAndReference()
+    {
+        return sprintf('%s (%s)', $this->owner->Title, $this->owner->JobAdderReference);
+    }
 }
