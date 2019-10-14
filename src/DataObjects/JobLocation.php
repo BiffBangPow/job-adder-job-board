@@ -79,9 +79,6 @@ class JobLocation extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        $fields->removeByName('JobAlertSubscriptions');
-        $fields->removeByName('JobAds');
-
         $fields->addFieldsToTab('Root.Main', [
             TextField::create('Title', 'Title')->setReadonly(true),
             DropdownField::create('CountryID', 'Country', JobCountry::get()->map()->toArray())->setReadonly(true),

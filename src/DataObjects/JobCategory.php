@@ -82,10 +82,6 @@ class JobCategory extends DataObject
     {
         $fields = parent::getCMSFields();
 
-        $fields->removeByName('JobAlertSubscriptions');
-        // $fields->removeByName('JobAds');
-        $fields->removeByName('SubCategories');
-
         $fields->addFieldsToTab('Root.Main', [
             TextField::create('Title', 'Title')->setReadonly(true),
         ]);
