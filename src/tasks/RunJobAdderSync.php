@@ -88,6 +88,7 @@ class RunJobAdderSync extends BuildTask
         $this->addOutput('Sync complete, synced ' . $this->totalJobsSynced . ' total jobs');
 
         $syncRecord = JobAdderSyncRecord::create();
+        $syncRecord->Type = JobAdderSyncRecord::SYNC_TYPE;
         $syncFinished = new DateTime();
         $syncRecord->Started = $syncStarted->format('Y-m-d H:i:s');
         $syncRecord->Finished = $syncFinished->format('Y-m-d H:i:s');

@@ -1,6 +1,7 @@
 <?php
 
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobAd;
+use BiffBangPow\JobAdderJobBoard\DataObjects\JobAdderSyncRecord;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobCategory;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobCountry;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobCurrency;
@@ -37,9 +38,20 @@ class RunJobAdderCleanup extends BuildTask
     public function cleanup()
     {
         $this->addOutput('Cleaning up');
+
+        $cleanupStarted = new DateTime();
+
         $this->cleanupExpiredJobAds();
         $this->cleanupDeletedJobAds();
         $this->cleanupUnusedDataobjects();
+
+        $syncRecord = JobAdderSyncRecord::create();
+        $cleanupFinished = new DateTime();
+        $syncRecord->Type = JobAdderSyncRecord::CLEANUP_TYPE;
+        $syncRecord->Started = $cleanupStarted->format('Y-m-d H:i:s');
+        $syncRecord->Finished = $cleanupFinished->format('Y-m-d H:i:s');
+        $syncRecord->Output = $this->getOutputString();
+        $syncRecord->write();
     }
 
     /**
@@ -264,5 +276,25 @@ class RunJobAdderCleanup extends BuildTask
         ];
 
         echo $output . PHP_EOL;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutputString()
+    {
+        $output = '';
+        foreach ($this->getOutput() as $outputLine) {
+            $output .= $outputLine['Timestamp'] . ' - ' . $outputLine['Message'] . PHP_EOL;
+        }
+        return $output;
     }
 }
