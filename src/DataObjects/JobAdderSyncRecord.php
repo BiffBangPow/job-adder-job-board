@@ -44,7 +44,7 @@ class JobAdderSyncRecord extends DataObject
     /**
      * @var string
      */
-    private static $default_sort = 'Started';
+    private static $default_sort = 'Started DESC';
 
     /**
      * @return FieldList

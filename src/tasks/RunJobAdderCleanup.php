@@ -38,6 +38,7 @@ class RunJobAdderCleanup extends BuildTask
     {
         $this->addOutput('Cleaning up');
         $this->cleanupExpiredJobAds();
+        $this->cleanupDeletedJobAds();
         $this->cleanupUnusedDataobjects();
     }
 
@@ -50,6 +51,19 @@ class RunJobAdderCleanup extends BuildTask
 
         foreach ($expiredJobAds as /** @var $expiredJobAd JobAd */ $expiredJobAd) {
             $this->addOutput('Deleted expired Job Ad: ' . $expiredJobAd->Title . ' (' . $expiredJobAd->JobAdderReference . ')');
+            $expiredJobAd->delete();
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function cleanupDeletedJobAds()
+    {
+        $expiredJobAds = JobAd::get()->filter(['LastEdited:LessThan' => date('Y-m-d H:i:s', strtotime('-1 hour'))]);
+
+        foreach ($expiredJobAds as /** @var $expiredJobAd JobAd */ $expiredJobAd) {
+            $this->addOutput('Deleted out of date Job Ad: ' . $expiredJobAd->Title . ' (' . $expiredJobAd->JobAdderReference . ')');
             $expiredJobAd->delete();
         }
     }
