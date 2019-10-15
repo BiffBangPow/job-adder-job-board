@@ -378,55 +378,52 @@ class RunJobAdderSync extends BuildTask
         $jobAd->DisplaySalary = $displaySalary['value'];
 
         $currency = $this->findFieldWithName($fields, 'Currency');
-
-        $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
-        if ($currencyObject === null) {
-            $currencyObject = JobCurrency::create();
+        if ($currency !== null) {
+            $currencyObject = JobCurrency::get()->filter(['JobAdderReference' => $currency['valueId']])->first();
+            if ($currencyObject === null) {
+                $currencyObject = JobCurrency::create();
+                $currencyObject->JobAdderReference = $currency['valueId'];
+            }
             $currencyObject->Title = $currency['value'];
-            $currencyObject->JobAdderReference = $currency['valueId'];
             $currencyObject->write();
+            $jobAd->Currency = $currencyObject;
         }
-        $jobAd->Currency = $currencyObject;
 
         $workType = $this->findFieldWithName($fields, 'Work Type');
-        $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
-        if ($workTypeObject === null) {
-            $workTypeObject = JobWorkType::create();
+        if ($workType !== null) {
+            $workTypeObject = JobWorkType::get()->filter(['JobAdderReference' => $workType['valueId']])->first();
+            if ($workTypeObject === null) {
+                $workTypeObject = JobWorkType::create();
+                $workTypeObject->JobAdderReference = $workType['valueId'];
+            }
             $workTypeObject->Title = $workType['value'];
-            $workTypeObject->JobAdderReference = $workType['valueId'];
             $workTypeObject->write();
+            $jobAd->WorkType = $workTypeObject;
         }
-        $jobAd->WorkType = $workTypeObject;
 
         $location = $this->findFieldWithName($fields, 'Location');
-
         if ($location !== null) {
             $locationObject = JobLocation::get()->filter(['JobAdderReference' => $location['valueId']])->first();
             if ($locationObject === null) {
                 $locationObject = JobLocation::create();
-                $locationObject->Title = $location['value'];
                 $locationObject->JobAdderReference = $location['valueId'];
             }
+            $locationObject->Title = $location['value'];
             $locationObject->write();
             $jobAd->Location = $locationObject;
         }
 
         $category = $this->findFieldWithName($fields, 'Category');
-
         if ($category !== null) {
-
             $categoryObject = JobCategory::get()->filter(['JobAdderReference' => $category['valueId']])->first();
             if ($categoryObject === null) {
                 $categoryObject = JobCategory::create();
-                $categoryObject->Title = $category['value'];
                 $categoryObject->JobAdderReference = $category['valueId'];
-
                 $this->extend('updateCreateCategory', $categoryObject, $category);
-
-                $categoryObject->write();
             }
+            $categoryObject->Title = $category['value'];
+            $categoryObject->write();
             $jobAd->Category = $categoryObject;
-
         }
 
         // todo countries and sub categories sync
