@@ -399,6 +399,8 @@ class RunJobAdderSync extends BuildTask
             $currencyObject->Title = $currency['value'];
             $currencyObject->write();
             $jobAd->Currency = $currencyObject;
+        } else {
+            $jobAd->CurrencyID = 0;
         }
 
         $workType = $this->findFieldWithName($fields, 'Work Type');
@@ -411,6 +413,8 @@ class RunJobAdderSync extends BuildTask
             $workTypeObject->Title = $workType['value'];
             $workTypeObject->write();
             $jobAd->WorkType = $workTypeObject;
+        } else {
+            $jobAd->WorkTypeID = 0;
         }
 
         $location = $this->findFieldWithName($fields, 'Location');
@@ -423,6 +427,8 @@ class RunJobAdderSync extends BuildTask
             $locationObject->Title = $location['value'];
             $locationObject->write();
             $jobAd->Location = $locationObject;
+        } else {
+            $jobAd->LocationID = 0;
         }
 
         $category = $this->findFieldWithName($fields, 'Category');
@@ -436,6 +442,8 @@ class RunJobAdderSync extends BuildTask
             $this->extend('updateCreateCategory', $categoryObject, $category);
             $categoryObject->write();
             $jobAd->Category = $categoryObject;
+        } else {
+            $jobAd->CategoryID = 0;
         }
 
         // todo countries and sub categories sync
