@@ -20,9 +20,6 @@ use SilverStripe\ORM\FieldType\DBVarchar;
  */
 class JobAdderSyncRecord extends DataObject
 {
-    const SYNC_TYPE = 'Sync';
-    const CLEANUP_TYPE = 'Cleanup';
-
     /**
      * @var string
      */
@@ -32,7 +29,6 @@ class JobAdderSyncRecord extends DataObject
      * @var array
      */
     private static $db = [
-        'Type'     => DBVarchar::class,
         'Started'  => DBVarchar::class,
         'Finished' => DBVarchar::class,
         'Output'   => DBText::class,
@@ -42,7 +38,6 @@ class JobAdderSyncRecord extends DataObject
      * @var array
      */
     private static $summary_fields = [
-        'Type'     => 'Type',
         'Started'  => 'Started',
         'Finished' => 'Finished',
     ];
@@ -65,7 +60,6 @@ class JobAdderSyncRecord extends DataObject
         $fields->removeByName('Type');
 
         $fields->addFieldsToTab('Root.Main', [
-            TextField::create('Type', 'Type')->setReadonly(true),
             TextField::create('Started', 'Started')->setReadonly(true),
             TextField::create('Finished', 'Finished')->setReadonly(true),
             TextareaField::create('Sync output', 'Sync output')->setValue($this->Output)->setRows(30)->setReadonly(true),
