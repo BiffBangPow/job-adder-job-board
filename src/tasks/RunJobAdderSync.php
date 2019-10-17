@@ -425,6 +425,7 @@ class RunJobAdderSync extends BuildTask
                 $locationObject->JobAdderReference = $location['valueId'];
             }
             $locationObject->Title = $location['value'];
+            $this->extend('updateCreateLocation', $locationObject, $location);
             $locationObject->write();
             $jobAd->Location = $locationObject;
         } else {
