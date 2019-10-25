@@ -13,6 +13,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FieldList;
@@ -62,24 +63,34 @@ class JobAlertsController extends PageController
      */
     public function doCreateSubscription($data, $form)
     {
-        $jobAlertSubscription = JobAlertSubscription::create();
-        $form->saveInto($jobAlertSubscription);
-        $jobAlertSubscription->write();
+        if ($data['ContactConsent'] === '1' || $data['ContactConsent'] === 1) {
 
-        $siteConfig = SiteConfig::current_site_config();
+            $jobAlertSubscription = JobAlertSubscription::create();
+            $form->saveInto($jobAlertSubscription);
+            $jobAlertSubscription->write();
 
-        $email = Email::create();
-        $email->setHTMLTemplate('Email\\JobAlertsSubscribedEmail');
-        $email->setFrom($siteConfig->JobAlertsEmailsFrom, $siteConfig->JobAlertsBrandName);
-        $email->setTo($jobAlertSubscription->EmailAddress);
-        $email->setSubject('Subscribed to job alerts from ' . $siteConfig->JobAlertsBrandName);
-        $email->setData([
-            'JobAlertSubscription' => $jobAlertSubscription,
-            'BrandName'            => $siteConfig->JobAlertsBrandName,
-        ]);
-        $email->send();
+            $siteConfig = SiteConfig::current_site_config();
 
-        return $this->redirect($this->Link('subscribed'));
+            $email = Email::create();
+            $email->setHTMLTemplate('Email\\JobAlertsSubscribedEmail');
+            $email->setFrom($siteConfig->JobAlertsEmailsFrom, $siteConfig->JobAlertsBrandName);
+            $email->setTo($jobAlertSubscription->EmailAddress);
+            $email->setSubject('Subscribed to job alerts from ' . $siteConfig->JobAlertsBrandName);
+            $email->setData([
+                'JobAlertSubscription' => $jobAlertSubscription,
+                'BrandName'            => $siteConfig->JobAlertsBrandName,
+            ]);
+            $email->send();
+
+            return $this->redirect($this->Link('subscribed'));
+
+        } else {
+
+            $form->addErrorMessage('ContactConsent', 'We cannot process your data without your consent', 'bad');
+
+            return $this->redirectBack();
+
+        }
     }
 
     /**
@@ -148,19 +159,29 @@ class JobAlertsController extends PageController
      */
     public function doUpdateSubscription($data, $form)
     {
-        $hash = $data['Hash'];
-        $jobAlertSubscription = JobAlertSubscription::get()->filter(['Hash' => $hash])->first();
+        if ($data['ContactConsent'] === '1' || $data['ContactConsent'] === 1) {
 
-        if ($hash !== null && $jobAlertSubscription !== null) {
+            $hash = $data['Hash'];
+            $jobAlertSubscription = JobAlertSubscription::get()->filter(['Hash' => $hash])->first();
 
-            $form->saveInto($jobAlertSubscription);
-            $jobAlertSubscription->write();
+            if ($hash !== null && $jobAlertSubscription !== null) {
 
-            return $this->redirect($this->Link('updatesubscription/' . $hash, ['updated' => 1]));
+                $form->saveInto($jobAlertSubscription);
+                $jobAlertSubscription->write();
+
+                return $this->redirect($this->Link('updatesubscription/' . $hash, ['updated' => 1]));
+
+            }
+
+            return $this->httpError(404, 'Job alert subscription not found');
+
+        } else {
+
+            $form->addErrorMessage('ContactConsent', 'We cannot process your data without your consent', 'bad');
+
+            return $this->redirectBack();
 
         }
-
-        return $this->httpError(404, 'Job alert subscription not found');
     }
 
     /**
@@ -214,6 +235,9 @@ class JobAlertsController extends PageController
         $now = new \DateTime();
         $nowString = $now->format(\DateTime::ISO8601);
 
+        $siteConfig = SiteConfig::current_site_config();
+        $checkboxText = $siteConfig->JobAlertsConsentCheckboxText;
+
         $fields = FieldList::create([
             TextField::create('Name', 'Name')->addExtraClass('col-12'),
             EmailField::create('EmailAddress', 'Email Address')->addExtraClass('col-12'),
@@ -225,6 +249,7 @@ class JobAlertsController extends PageController
             CheckboxSetField::create('Countries', 'Countries', JobCountry::get()->map()->toArray())->addExtraClass('col-12'),
             CheckboxSetField::create('Locations', 'Locations', JobLocation::get()->map()->toArray())->addExtraClass('col-12'),
             CheckboxSetField::create('WorkTypes', 'Work Types', JobWorkType::get()->map()->toArray())->addExtraClass('col-12'),
+            CheckboxField::create('ContactConsent', $checkboxText)->addExtraClass('col-12')
         ]);
 
         $actions = FieldList::create(
@@ -242,6 +267,7 @@ class JobAlertsController extends PageController
                     'Hash',
                     'CreatedDate',
                     'AlertsLastSent',
+                    'ContactConsent'
                 ]
             )
         );

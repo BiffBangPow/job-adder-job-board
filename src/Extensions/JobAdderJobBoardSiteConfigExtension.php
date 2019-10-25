@@ -1,6 +1,7 @@
 <?php
 
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;
@@ -18,6 +19,7 @@ class JobAdderJobBoardSiteConfigExtension extends DataExtension
         'JobAdderJobBoardJobBoardID'   => 'Varchar(200)',
         'JobAlertsBrandName'           => 'Varchar(200)',
         'JobAlertsEmailsFrom'          => 'Varchar(200)',
+        'JobAlertsConsentCheckboxText' => 'HTMLText'
     ];
 
     /**
@@ -55,6 +57,7 @@ class JobAdderJobBoardSiteConfigExtension extends DataExtension
         $fields->addFieldsToTab('Root.JobAlerts', [
             TextField::create('JobAlertsBrandName', 'Job Alerts Brand Name'),
             TextField::create('JobAlertsEmailsFrom', 'Job Alerts Emails From'),
+            HTMLEditorField::create('JobAlertsConsentCheckboxText', 'Job Alerts Consent Checkbox Text')
         ]);
     }
 }
