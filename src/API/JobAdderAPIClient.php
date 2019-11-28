@@ -49,6 +49,7 @@ class JobAdderAPIClient
         $now = new DateTime();
 
         $contents = $this->makeGetRequest('/jobboards/' . $this->jobBoardId . '/ads', [
+            'limit'      => 1000,
             '>expiresAt' => $now->format(DateTimeInterface::ISO8601),
         ]);
 
