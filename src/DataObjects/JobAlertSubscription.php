@@ -3,6 +3,7 @@
 namespace BiffBangPow\JobAdderJobBoard\DataObjects;
 
 use BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController;
+use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
