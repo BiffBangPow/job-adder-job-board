@@ -70,8 +70,7 @@ class JobAlertSubscription extends DataObject
      */
     public function getUnsubscribeLink()
     {
-        $controller = new JobAlertsController();
-        return $controller->Link('unsubscribe/' . $this->Hash);
+        return Director::absoluteBaseURL() . 'job-alerts/unsubscribe/' . $this->Hash;
     }
 
     /**
@@ -79,8 +78,7 @@ class JobAlertSubscription extends DataObject
      */
     public function getUpdateSubscriptionLink()
     {
-        $controller = new JobAlertsController();
-        return $controller->Link('updatesubscription/' . $this->Hash);
+        return Director::absoluteBaseURL() . 'job-alerts/updatesubscription/' . $this->Hash;
     }
 
     /**

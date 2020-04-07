@@ -229,6 +229,7 @@ class JobAd extends DataObject
      */
     public function Link()
     {
+        /** @var JobAdderJobBoardPage $jobBoardPage */
         $jobBoardPage = JobAdderJobBoardPage::get()->first();
         return $jobBoardPage->Link('job/' . $this->Slug);
     }
@@ -238,8 +239,9 @@ class JobAd extends DataObject
      */
     public function AbsoluteLink()
     {
+        /** @var JobAdderJobBoardPage $jobBoardPage */
         $jobBoardPage = JobAdderJobBoardPage::get()->first();
-        return $jobBoardPage->AbsoluteLink('job/' . $this->Slug);
+        return $jobBoardPage->getAbsoluteLiveLink(false) . 'job/' . $this->Slug;
     }
 
     /**
@@ -247,8 +249,9 @@ class JobAd extends DataObject
      */
     public function getApplyLink()
     {
+        /** @var JobAdderJobBoardPage $jobBoardPage */
         $jobBoardPage = JobAdderJobBoardPage::get()->first();
-        return $jobBoardPage->Link('apply/' . $this->Slug);
+        return $jobBoardPage->getAbsoluteLiveLink(false) . 'apply/' . $this->Slug;
     }
 
     /**
