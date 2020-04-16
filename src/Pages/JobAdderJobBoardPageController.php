@@ -38,6 +38,8 @@ class JobAdderJobBoardPageController extends PageController
 
     public $filters = [];
 
+    public $anyFilters = [];
+
     /**
      * @var array
      */
@@ -56,6 +58,7 @@ class JobAdderJobBoardPageController extends PageController
         $this->filters = [
             'ExpiresAt:GreaterThanOrEqual' => date('Y-m-d'),
         ];
+        $this->anyFilters = [];
 
         /** @var HTTPRequest $request */
         $request = $this->getRequest();
@@ -111,9 +114,12 @@ class JobAdderJobBoardPageController extends PageController
             $this->filters['WorkType.ID'] = $workTypeID;
         }
 
-        $this->extend('updateResults', $request, $this->filters);
+        $this->extend('updateResults', $request, $this->filters, $this->anyFilters);
 
         $dataList = $dataList->filter($this->filters);
+        if (count($this->anyFilters) > 0) {
+            $dataList = $dataList->filterAny($this->anyFilters);
+        }
         $dataList = $dataList->sort('PostedAt', 'DESC');
 
         $paginatedList = new PaginatedList($dataList, $request);
