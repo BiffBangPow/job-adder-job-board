@@ -374,6 +374,8 @@ class RunJobAdderSync extends BuildTask
             }
 
         }
+
+        $this->extend('syncJobAdPortalData', $jobAd, $portal);
     }
 
     /**
