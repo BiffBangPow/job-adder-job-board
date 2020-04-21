@@ -133,7 +133,7 @@ class RunJobAdderSync extends BuildTask
      * @param $jobAd
      * @throws ValidationException
      */
-    private function syncJobAd($jobAd)
+    public function syncJobAd($jobAd)
     {
         $adId = $jobAd['adId'];
 
@@ -175,7 +175,7 @@ class RunJobAdderSync extends BuildTask
         $this->addOutput('Synced job: ' . $jobAd->Title . ' (' . $jobAd->JobAdderReference . ')');
     }
 
-    private function syncLinksData(array $adData, JobAd $jobAd)
+    public function syncLinksData(array $adData, JobAd $jobAd)
     {
         if (isset($adData['links']) || array_key_exists('links', $adData)) {
 
@@ -202,7 +202,7 @@ class RunJobAdderSync extends BuildTask
      * @throws GuzzleException
      * @throws ValidationException
      */
-    private function syncConsultantData(array $adData, JobAd $jobAd)
+    public function syncConsultantData(array $adData, JobAd $jobAd)
     {
         if (isset($adData['owner']) || array_key_exists('owner', $adData)) {
 
@@ -275,7 +275,7 @@ class RunJobAdderSync extends BuildTask
      * @param array $adData
      * @param JobAd $jobAd
      */
-    private function syncJobAdBasicData(array $adData, JobAd $jobAd)
+    public function syncJobAdBasicData(array $adData, JobAd $jobAd)
     {
         if (isset($adData['title']) || array_key_exists('title', $adData)) {
             $jobAd->Title = $adData['title'];
@@ -333,7 +333,7 @@ class RunJobAdderSync extends BuildTask
      * @param array $portal
      * @param JobAd $jobAd
      */
-    private function syncJobAdPortalData(array $portal, JobAd $jobAd)
+    public function syncJobAdPortalData(array $portal, JobAd $jobAd)
     {
         if (isset($portal['hotJob']) || array_key_exists('hotJob', $portal)) {
 
@@ -381,7 +381,7 @@ class RunJobAdderSync extends BuildTask
      * @param JobAd $jobAd
      * @throws ValidationException
      */
-    private function syncJobAdFieldsData(array $fields, JobAd $jobAd)
+    public function syncJobAdFieldsData(array $fields, JobAd $jobAd)
     {
         $displayLocation = $this->findFieldWithName($fields, 'Display Location');
         $jobAd->DisplayLocation = $displayLocation['value'];
@@ -532,7 +532,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupExpiredJobAds()
+    public function cleanupExpiredJobAds()
     {
         $expiredJobAds = JobAd::get()->filter(['ExpiresAt:LessThan' => date('Y-m-d')]);
 
@@ -545,7 +545,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupDeletedJobAds()
+    public function cleanupDeletedJobAds()
     {
         $expiredJobAds = JobAd::get()->filter(['LastEdited:LessThan' => date('Y-m-d H:i:s', strtotime('-1 hour'))]);
 
@@ -558,7 +558,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedDataobjects()
+    public function cleanupUnusedDataobjects()
     {
         $this->cleanupUnusedCountries();
         $this->cleanupUnusedLocations();
@@ -572,7 +572,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedCountries()
+    public function cleanupUnusedCountries()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobCountry');
@@ -596,7 +596,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedLocations()
+    public function cleanupUnusedLocations()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobLocation');
@@ -620,7 +620,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedCategories()
+    public function cleanupUnusedCategories()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobCategory');
@@ -644,7 +644,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedSubCategories()
+    public function cleanupUnusedSubCategories()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobSubCategory');
@@ -668,7 +668,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedSalaryFrequencies()
+    public function cleanupUnusedSalaryFrequencies()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobSalaryFrequency');
@@ -692,7 +692,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedWorkTypes()
+    public function cleanupUnusedWorkTypes()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobWorkType');
@@ -716,7 +716,7 @@ class RunJobAdderSync extends BuildTask
     /**
      * @throws Exception
      */
-    private function cleanupUnusedCurrencies()
+    public function cleanupUnusedCurrencies()
     {
         $sqlQuery = new SQLSelect();
         $sqlQuery->setFrom('JobCurrency');
@@ -741,7 +741,7 @@ class RunJobAdderSync extends BuildTask
      * @param string $output
      * @throws Exception
      */
-    private function addOutput(string $output)
+    public function addOutput(string $output)
     {
         $now = new DateTime();
 
@@ -758,7 +758,7 @@ class RunJobAdderSync extends BuildTask
      * @param string $name
      * @return mixed|null
      */
-    private function findFieldWithName(array $fields, string $name)
+    public function findFieldWithName(array $fields, string $name)
     {
         foreach ($fields as $field) {
             if ($field['fieldName'] === $name) {
