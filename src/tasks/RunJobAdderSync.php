@@ -373,6 +373,8 @@ class RunJobAdderSync extends BuildTask
 
             }
 
+            $this->extend('syncJobAdPortalSalaryData', $jobAd, $salary);
+
         }
 
         $this->extend('syncJobAdPortalData', $jobAd, $portal);
