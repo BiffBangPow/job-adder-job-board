@@ -388,10 +388,14 @@ class RunJobAdderSync extends BuildTask
     public function syncJobAdFieldsData(array $fields, JobAd $jobAd)
     {
         $displayLocation = $this->findFieldWithName($fields, 'Display Location');
-        $jobAd->DisplayLocation = $displayLocation['value'];
+        if ($displayLocation) {
+            $jobAd->DisplayLocation = $displayLocation['value'];
+        }
 
         $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
-        $jobAd->DisplaySalary = $displaySalary['value'];
+        if ($displaySalary) {
+            $jobAd->DisplaySalary = $displaySalary['value'];
+        }
 
         $currency = $this->findFieldWithName($fields, 'Currency');
         if ($currency !== null) {
