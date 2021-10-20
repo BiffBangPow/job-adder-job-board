@@ -17,6 +17,8 @@ use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\SiteConfig\SiteConfig;
+use Psr\Log\LoggerInterface;
+use SilverStripe\Core\Injector\Injector;
 
 class RunJobAdderSync extends BuildTask
 {
@@ -685,6 +687,8 @@ class RunJobAdderSync extends BuildTask
             'Message'   => $output,
             'Timestamp' => $now->format('Y-m-d H:i:s'),
         ];
+
+        Injector::inst()->get(LoggerInterface::class)->info($output);
 
         echo $output . PHP_EOL;
     }
