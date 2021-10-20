@@ -261,6 +261,12 @@ class RunJobAdderSync extends BuildTask
             if ($consultantPhotoResponse !== null) {
                 sscanf($consultantPhotoResponse->getHeader('Content-Type')[0],"image/%s", $photoExtension);
                 $filePath = sprintf('/consultant/%d.%s', $owner['userId'], $photoExtension);
+                if(!is_dir(SilverStripe\Control\Director::baseFolder() . "/public/consultant")){
+                    mkdir(SilverStripe\Control\Director::baseFolder() . "/public/consultant", 0755);
+                }
+                if (!file_exists(SilverStripe\Control\Director::baseFolder() . "/public/consultant/.gitignore")) {
+                    file_put_contents(SilverStripe\Control\Director::baseFolder() . "/public/consultant/.gitignore", '*\n!.gitignore');
+                }
                 file_put_contents("public" . $filePath, $consultantPhotoResponse->getBody());
                 $consultantObject->PhotoURL = $filePath;
             }
