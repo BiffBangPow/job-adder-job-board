@@ -102,7 +102,28 @@ class JobAdderAPIClient
         }
 
         $client = new Client();
-        $response = $client->request('GET', $this->apiBaseURL . $path, ['headers' => $this->getAuthorsationHeaders()]);
+
+        $responseSucceeded = false;
+        $timesRetried = 0;
+
+        while ($responseSucceeded === false && $timesRetried <= 3) {
+            try {
+                $response = $client->request('GET', $this->apiBaseURL . $path, ['headers' => $this->getAuthorsationHeaders()]);
+                if ($response->getStatusCode() === 200) {
+                    $responseSucceeded = true;
+                }
+            } catch (ClientException $exception) {
+                $response = $exception->getResponse();
+                if ($response->getStatusCode() === 429) {
+                    $wait = intval($response->getHeader('Retry-After'));
+                    echo sprintf('Waiting for %s seconds because of 429 response', $wait) . PHP_EOL;
+                    sleep($wait);
+                    $timesRetried++;
+                    echo sprintf('Retried %s times', $timesRetried) . PHP_EOL;
+                }
+            }
+        }
+
         return $response->getBody()->getContents();
     }
 
