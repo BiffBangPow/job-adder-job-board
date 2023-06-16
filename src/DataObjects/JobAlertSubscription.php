@@ -51,6 +51,7 @@ class JobAlertSubscription extends DataObject
         'Countries'     => JobCountry::class,
         'Locations'     => JobLocation::class,
         'WorkTypes'     => JobWorkType::class,
+        'Currencies'    => JobCurrency::class,
     ];
 
     /**
