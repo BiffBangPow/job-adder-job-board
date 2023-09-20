@@ -56,7 +56,7 @@ class RunJobAdderSync extends BuildTask
     public function run($request)
     {
         $syncStarted = new DateTime();
-        // $this->syncJobAds();
+        $this->syncJobAds();
         $this->cleanup();
         $syncRecord = JobAdderSyncRecord::create();
         $syncFinished = new DateTime();
