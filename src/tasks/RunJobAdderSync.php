@@ -13,6 +13,7 @@ use BiffBangPow\JobAdderJobBoard\DataObjects\JobWorkType;
 use GuzzleHttp\Exception\GuzzleException;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\ORM\Queries\SQLDelete;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\Control\HTTPRequest;
@@ -472,12 +473,9 @@ class RunJobAdderSync extends BuildTask
      */
     public function cleanupExpiredJobAds()
     {
-        $expiredJobAds = JobAd::get()->filter(['ExpiresAt:LessThan' => date('Y-m-d')]);
-
-        foreach ($expiredJobAds as /** @var $expiredJobAd JobAd */ $expiredJobAd) {
-            $this->addOutput('Deleted expired Job Ad: ' . $expiredJobAd->Title . ' (' . $expiredJobAd->JobAdderReference . ')');
-            $expiredJobAd->delete();
-        }
+        $delete = new SQLDelete(['JobAd'], ['ExpiresAt:LessThan' => date('Y-m-d')]);
+        $delete->execute();
+        $this->addOutput('Deleted expired Job Ads');
     }
 
     /**
@@ -485,12 +483,9 @@ class RunJobAdderSync extends BuildTask
      */
     public function cleanupDeletedJobAds()
     {
-        $expiredJobAds = JobAd::get()->filter(['LastEdited:LessThan' => date('Y-m-d H:i:s', strtotime('-1 hour'))]);
-
-        foreach ($expiredJobAds as /** @var $expiredJobAd JobAd */ $expiredJobAd) {
-            $this->addOutput('Deleted out of date Job Ad: ' . $expiredJobAd->Title . ' (' . $expiredJobAd->JobAdderReference . ')');
-            $expiredJobAd->delete();
-        }
+        $delete = new SQLDelete(['JobAd'], ['LastEdited:LessThan' => date('Y-m-d')]);
+        $delete->execute();
+        $this->addOutput('Deleted Job Ads not in JA');
     }
 
     /**

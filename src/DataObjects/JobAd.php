@@ -71,6 +71,11 @@ class JobAd extends DataObject
         'Slug'            => DBVarchar::class,
     ];
 
+    private static $indexes = [
+        'ExpiresAt'  => true,
+        'LastEdited' => true,
+    ];
+
     /**
      * @var array
      */
