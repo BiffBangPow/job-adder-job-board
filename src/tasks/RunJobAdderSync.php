@@ -56,7 +56,7 @@ class RunJobAdderSync extends BuildTask
     public function run($request)
     {
         $syncStarted = new DateTime();
-        $this->syncJobAds();
+        // $this->syncJobAds();
         $this->cleanup();
         $syncRecord = JobAdderSyncRecord::create();
         $syncFinished = new DateTime();
@@ -473,8 +473,10 @@ class RunJobAdderSync extends BuildTask
      */
     public function cleanupExpiredJobAds()
     {
-        $delete = new SQLDelete(['JobAd'], ['ExpiresAt:LessThan' => date('Y-m-d')]);
-        $delete->execute();
+        $query = new SQLDelete();
+        $query->setFrom('JobAd');
+        $query->setWhere('ExpiresAt < NOW()');
+        $query->execute();
         $this->addOutput('Deleted expired Job Ads');
     }
 
@@ -483,8 +485,10 @@ class RunJobAdderSync extends BuildTask
      */
     public function cleanupDeletedJobAds()
     {
-        $delete = new SQLDelete(['JobAd'], ['LastEdited:LessThan' => date('Y-m-d')]);
-        $delete->execute();
+        $query = new SQLDelete();
+        $query->setFrom('JobAd');
+        $query->setWhere('LastEdited < date_sub(NOW(),interval 3 hour)');
+        $query->execute();
         $this->addOutput('Deleted Job Ads not in JA');
     }
 
