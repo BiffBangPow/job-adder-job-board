@@ -218,7 +218,12 @@ class RunJobAdderSync extends BuildTask
             }
 
             if (isset($owner['userId']) || array_key_exists('userId', $owner)) {
+
                 $consultantObject->JobAdderReference = $owner['userId'];
+
+                $consultantData = $this->apiClient->getConsultantData($owner['userId']);
+                var_dump($consultantData);
+
             }
 
             if (isset($owner['firstName']) || array_key_exists('firstName', $owner)) {

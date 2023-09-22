@@ -80,6 +80,17 @@ class JobAdderAPIClient
     }
 
     /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getConsultantData($userId)
+    {
+        $contents = $this->makeGetRequest('/users/' . $userId);
+        $ad = json_decode($contents, true);
+        return $ad;
+    }
+
+    /**
      * @param $consultantId
      * @return mixed|ResponseInterface|null
      * @throws GuzzleException
