@@ -221,7 +221,7 @@ class RunJobAdderSync extends BuildTask
 
                 $consultantObject->JobAdderReference = $owner['userId'];
 
-                if ($owner['firstName'] === 'Emma') {
+                if ($owner['lastName'] === 'Heathcote') {
                     $consultantData = $this->apiClient->getConsultantData($owner['userId']);
                     var_dump($consultantData);
                 }
