@@ -151,6 +151,8 @@ class RunJobAdderSync extends BuildTask
         $this->syncJobAdBasicData($adDataFromJobBoard, $jobAd);
         $this->syncLinksData($adDataFromJobBoard, $jobAd);
 
+        var_dump($adDataFromJobBoard);
+
         if (isset($adDataFromJobBoard['portal']) || array_key_exists('portal', $adDataFromJobBoard)) {
 
             $portal = $adDataFromJobBoard['portal'];
