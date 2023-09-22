@@ -169,6 +169,9 @@ class RunJobAdderSync extends BuildTask
         }
 
         $adData = $this->apiClient->getJobAd($adId);
+
+        var_dump($adData);
+
         $this->syncConsultantData($adData, $jobAd);
 
         $this->extend('updateSyncJobAd', $jobAd, $adDataFromJobBoard);
