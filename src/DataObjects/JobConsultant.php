@@ -34,15 +34,16 @@ class JobConsultant extends DataObject
      * @var array
      */
     private static $db = [
-        'FirstName' => DBVarchar::class,
-        'LastName'  => DBVarchar::class,
-        'LinkedIn'  => DBVarchar::class,
-        'Position'  => DBVarchar::class,
-        'JobTitle'  => DBVarchar::class,
-        'Email'     => DBVarchar::class,
-        'Phone'     => DBVarchar::class,
-        'Mobile'    => DBVarchar::class,
-        'PhotoURL'  => DBVarchar::class,
+        'FirstName'   => DBVarchar::class,
+        'LastName'    => DBVarchar::class,
+        'LinkedIn'    => DBVarchar::class,
+        'Position'    => DBVarchar::class,
+        'JobTitle'    => DBVarchar::class,
+        'Email'       => DBVarchar::class,
+        'Phone'       => DBVarchar::class,
+        'Mobile'      => DBVarchar::class,
+        'PhotoURL'    => DBVarchar::class,
+        'APIPhotoURL' => DBVarchar::class,
     ];
 
     /**

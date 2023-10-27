@@ -254,6 +254,9 @@ class RunJobAdderSync extends BuildTask
                 $links = $owner['links'];
 
                 if (isset($links['photo']) || array_key_exists('photo', $links)) {
+
+                    $consultantObject->APIPhotoURL = $links['photo'];
+
                     $consultantPhotoResponse = $this->apiClient->getConsultantPhotoResponse($owner['userId']);
 
                     if ($consultantPhotoResponse !== null) {
