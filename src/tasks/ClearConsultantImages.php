@@ -42,7 +42,7 @@ class ClearConsultantImages extends BuildTask
         foreach ($consultants as $consultant) {
             echo sprintf('Removing image for %s %s', $consultant->FirstName, $consultant->LastName) . PHP_EOL;
             $consultant->PhotoURL = '';
-            $consultants->write();
+            $consultant->write();
         }
     }
 }
