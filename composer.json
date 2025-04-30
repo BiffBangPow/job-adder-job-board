@@ -8,10 +8,8 @@
         {"name": "James Heathcote","email": "james.h@biffbangpow.com"}
     ],
     "require": {
-        "silverstripe/cms": "^4",
-        "silverstripe/framework": "^4",
-        "silverstripe/lumberjack": "^2.0",
-        "silverstripe/admin": "^1.4",
+        "silverstripe/cms": "^4|^5",
+        "silverstripe/lumberjack": "^2.0|^3",
         "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
