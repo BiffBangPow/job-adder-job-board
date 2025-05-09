@@ -122,10 +122,14 @@ class JobAdderJobBoardPageController extends PageController
         }
         $dataList = $dataList->sort('PostedAt', 'DESC');
 
-        $paginatedList = new PaginatedList($dataList, $request);
-        $paginatedList->setPageLength($this->JobsPerPage);
+        $pageLength = (int)$this->data()->JobsPerPage;
+        if ($pageLength > 0) {
+            $paginatedList = new PaginatedList($dataList, $request);
+            $paginatedList->setPageLength($pageLength);
+            return $paginatedList;
+        }
 
-        return $paginatedList;
+        return $dataList;        
     }
 
     /**
