@@ -4,6 +4,7 @@ namespace BiffBangPow\JobAdderJobBoard\DataObjects;
 
 use BiffBangPow\JobAdderJobBoard\Extensions\JobAdderReferenceExtension;
 use BiffBangPow\JobAdderJobBoard\Pages\JobAdderJobBoardPage;
+use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
