@@ -246,7 +246,11 @@ class JobAd extends DataObject
     {
         /** @var JobAdderJobBoardPage $jobBoardPage */
         $jobBoardPage = JobAdderJobBoardPage::get()->first();
-        return $jobBoardPage->getAbsoluteLiveLink(false) . 'job/' . $this->Slug;
+        return Controller::join_links([
+            $jobBoardPage->getAbsoluteLiveLink(false),
+            'job',
+            $this->Slug
+        ]);
     }
 
     /**
@@ -256,7 +260,11 @@ class JobAd extends DataObject
     {
         /** @var JobAdderJobBoardPage $jobBoardPage */
         $jobBoardPage = JobAdderJobBoardPage::get()->first();
-        return $jobBoardPage->getAbsoluteLiveLink(false) . 'apply/' . $this->Slug;
+        return Controller::join_links([
+            $jobBoardPage->getAbsoluteLiveLink(false),
+            'apply',
+            $this->Slug
+        ]);
     }
 
     /**
