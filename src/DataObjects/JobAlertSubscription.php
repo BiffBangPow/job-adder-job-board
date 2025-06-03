@@ -3,6 +3,7 @@
 namespace BiffBangPow\JobAdderJobBoard\DataObjects;
 
 use BiffBangPow\JobAdderJobBoard\Controllers\JobAlertsController;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
@@ -72,7 +73,12 @@ class JobAlertSubscription extends DataObject
      */
     public function getUnsubscribeLink()
     {
-        return Director::absoluteBaseURL() . 'job-alerts/unsubscribe/' . $this->Hash;
+        return Controller::join_links([
+            Director::absoluteBaseURL(),
+            'job-alerts',
+            'unsubscribe',
+            $this->Hash
+        ]);
     }
 
     /**
@@ -80,7 +86,12 @@ class JobAlertSubscription extends DataObject
      */
     public function getUpdateSubscriptionLink()
     {
-        return Director::absoluteBaseURL() . 'job-alerts/updatesubscription/' . $this->Hash;
+        return Controller::join_links([
+            Director::absoluteBaseURL(),
+            'job-alerts',
+            'updatesubscription',
+            $this->Hash
+        ]);
     }
 
     /**
