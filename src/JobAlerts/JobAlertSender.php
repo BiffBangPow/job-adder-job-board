@@ -99,6 +99,11 @@ class JobAlertSender
             ]);
             $email->send();
 
+            $jobAlertSubscription->update([
+               'AlertsLastSent' => date('Y-m-d H:i:s')
+            ]);
+            $jobAlertSubscription->write();            
+
         } else {
 
             echo 'No jobs to send to ' . $jobAlertSubscription->EmailAddress . ' with ' . $jobs->count() . ' jobs' . PHP_EOL;
