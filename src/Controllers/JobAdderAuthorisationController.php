@@ -183,7 +183,7 @@ class JobAdderAuthorisationController extends PageController
      */
     private function getRedirectURL()
     {
-        return Director::absoluteBaseURL() . $this->Link('process');
+        return $this->AbsoluteLink('process');
     }
 
     /**
