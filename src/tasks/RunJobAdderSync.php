@@ -402,7 +402,8 @@ class RunJobAdderSync extends BuildTask
             $jobAd->DisplayLocation = $displayLocation['value'];
         }
 
-        $displaySalary = $this->findFieldWithName($fields, 'Display Salary');
+        $displaySalary = ($this->findFieldWithName($fields, 'Display Salary'))
+            ? $this->findFieldWithName($fields, 'Display Salary') : $this->findFieldWithName($fields, 'Salary');
         if ($displaySalary) {
             $jobAd->DisplaySalary = $displaySalary['value'];
         }
