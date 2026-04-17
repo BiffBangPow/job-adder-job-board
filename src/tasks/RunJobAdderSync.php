@@ -702,7 +702,7 @@ class RunJobAdderSync extends BuildTask
     public function findFieldWithName(array $fields, string $name)
     {
         foreach ($fields as $field) {
-            if ($field['fieldName'] === $name) {
+            if (trim($field['fieldName']) === $name) {
                 return $field;
             }
         }
