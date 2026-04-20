@@ -55,25 +55,25 @@ class JobAd extends DataObject
      * @var array
      */
     private static $db = [
-        'Title'           => DBVarchar::class,
-        'JobAdderId'      => DBVarchar::class,
-        'Description'     => 'HTMLText',
-        'Summary'         => DBText::class,
-        'BulletPoints'    => 'HTMLText',
-        'PostedAt'        => DBDatetime::class,
-        'UpdatedAt'       => DBDatetime::class,
-        'ExpiresAt'       => DBDatetime::class,
-        'SalaryRateLow'   => DBFloat::class,
-        'SalaryRateHigh'  => DBFloat::class,
+        'Title' => DBVarchar::class,
+        'JobAdderId' => DBVarchar::class,
+        'Description' => 'HTMLText',
+        'Summary' => DBText::class,
+        'BulletPoints' => 'HTMLText',
+        'PostedAt' => DBDatetime::class,
+        'UpdatedAt' => DBDatetime::class,
+        'ExpiresAt' => DBDatetime::class,
+        'SalaryRateLow' => DBFloat::class,
+        'SalaryRateHigh' => DBFloat::class,
         'DisplayLocation' => DBVarchar::class,
-        'DisplaySalary'   => DBVarchar::class,
-        'HotJob'          => DBBoolean::class,
+        'DisplaySalary' => DBVarchar::class,
+        'HotJob' => DBBoolean::class,
         'ApplicationLink' => DBVarchar::class,
-        'Slug'            => DBVarchar::class,
+        'Slug' => DBVarchar::class,
     ];
 
     private static $indexes = [
-        'ExpiresAt'  => true,
+        'ExpiresAt' => true,
         'LastEdited' => true,
     ];
 
@@ -81,14 +81,16 @@ class JobAd extends DataObject
      * @var array
      */
     private static $has_one = [
-        'Country'         => JobCountry::class,
-        'Location'        => JobLocation::class,
-        'Category'        => JobCategory::class,
-        'SubCategory'     => JobSubCategory::class,
-        'Currency'        => JobCurrency::class,
-        'WorkType'        => JobWorkType::class,
+        'Country' => JobCountry::class,
+        'Location' => JobLocation::class,
+        'Category' => JobCategory::class,
+        'SubCategory' => JobSubCategory::class,
+        'Currency' => JobCurrency::class,
+        'WorkType' => JobWorkType::class,
         'SalaryFrequency' => JobSalaryFrequency::class,
-        'Consultant'      => JobConsultant::class,
+        'Consultant' => JobConsultant::class,
+        'SalaryBand' => JobSalaryBand::class,
+        'FilterTitle' => JobTitle::class,
     ];
 
     /**

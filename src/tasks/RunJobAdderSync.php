@@ -9,6 +9,7 @@ use BiffBangPow\JobAdderJobBoard\DataObjects\JobCurrency;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobLocation;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobSalaryFrequency;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobSubCategory;
+use BiffBangPow\JobAdderJobBoard\DataObjects\JobTitle;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobWorkType;
 use GuzzleHttp\Exception\GuzzleException;
 use SilverStripe\CMS\Model\SiteTree;
@@ -289,6 +290,10 @@ class RunJobAdderSync extends BuildTask
     {
         if (isset($adData['title']) || array_key_exists('title', $adData)) {
             $jobAd->Title = $adData['title'];
+            $filterTitle = JobTitle::findOrMake($adData['title']);
+            if ($filterTitle !== null) {
+                $jobAd->TitleID = $filterTitle->ID;
+            }
         }
 
         if (isset($adData['adId']) || array_key_exists('adId', $adData)) {
@@ -406,6 +411,10 @@ class RunJobAdderSync extends BuildTask
             ? $this->findFieldWithName($fields, 'Display Salary') : $this->findFieldWithName($fields, 'Salary');
         if ($displaySalary) {
             $jobAd->DisplaySalary = $displaySalary['value'];
+            $salaryBand = \BiffBangPow\JobAdderJobBoard\DataObjects\JobSalaryBand::findOrMake($displaySalary['value']);
+            if ($salaryBand) {
+                $jobAd->SalaryBandID = $salaryBand->ID;
+            }
         }
 
         $currency = $this->findFieldWithName($fields, 'Currency');
