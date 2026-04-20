@@ -291,7 +291,7 @@ class RunJobAdderSync extends BuildTask
             $jobAd->Title = $adData['title'];
             $filterTitle = \BiffBangPow\JobAdderJobBoard\DataObjects\JobTitle::findOrMake($adData['title']);
             if ($filterTitle !== null) {
-                $jobAd->TitleID = $filterTitle->ID;
+                $jobAd->FilterTitleID = $filterTitle->ID;
             }
         }
 
