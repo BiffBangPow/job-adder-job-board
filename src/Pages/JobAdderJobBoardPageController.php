@@ -7,7 +7,9 @@ use BiffBangPow\JobAdderJobBoard\DataObjects\JobCategory;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobCountry;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobCurrency;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobLocation;
+use BiffBangPow\JobAdderJobBoard\DataObjects\JobSalaryBand;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobSalaryFrequency;
+use BiffBangPow\JobAdderJobBoard\DataObjects\JobTitle;
 use BiffBangPow\JobAdderJobBoard\DataObjects\JobWorkType;
 use PageController;
 use SilverStripe\Control\HTTPRequest;
@@ -17,24 +19,17 @@ use SilverStripe\ORM\PaginatedList;
 class JobAdderJobBoardPageController extends PageController
 {
     const SEARCH = 's';
-
     const COUNTRY = 'co';
-
     const LOCATION = 'lo';
-
     const CATEGORY = 'ca';
-
     const SUB_CATEGORY = 'sca';
-
     const CURRENCY = 'cu';
-
+    const SALARY_ID = 'sid';
     const SALARY_MIN = 'smin';
-
     const SALARY_MAX = 'smax';
-
     const SALARY_PER = 'sper';
-
     const WORK_TYPE = 'wt';
+    const TITLE_ID = 'tid';
 
     public $filters = [];
 
@@ -66,6 +61,16 @@ class JobAdderJobBoardPageController extends PageController
         $search = $request->getVar(self::SEARCH);
         if ($this->isParameterSet($search)) {
             $this->filters['Title:PartialMatch'] = $search;
+        }
+
+        $titleID = $request->getVar(self::TITLE_ID);
+        if ($this->isParameterSet($titleID)) {
+            $this->filters['FilterTitleID'] = $titleID;
+        }
+
+        $salaryID = $request->getVar(self::SALARY_ID);
+        if ($this->isParameterSet($salaryID)) {
+            $this->filters['SalaryBandID'] = $salaryID;
         }
 
         $countryID = $request->getVar(self::COUNTRY);
@@ -129,7 +134,7 @@ class JobAdderJobBoardPageController extends PageController
             return $paginatedList;
         }
 
-        return $dataList;        
+        return $dataList;
     }
 
     /**
@@ -179,6 +184,25 @@ class JobAdderJobBoardPageController extends PageController
             'JobAd' => $jobAd
         ];
     }
+
+    public function getFilterTitleParam() {
+        return self::TITLE_ID;
+    }
+
+    public function getSalaryBandParam() {
+        return self::SALARY_ID;
+    }
+
+    public function getSalaryBandsForFilter() {
+        $idsInUse = JobAd::get()->column('SalaryBandID');
+        return JobSalaryBand::get()->filter(['ID' => $idsInUse]);
+    }
+
+    public function getJobTitlesForFilter() {
+        $idsInUse = JobAd::get()->column('FilterTitleID');
+        return JobTitle::get()->filter(['ID' => $idsInUse])->sort('Title');
+    }
+
 
     /**
      * @return bool
