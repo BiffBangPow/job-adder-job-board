@@ -256,6 +256,12 @@ class JobAdderJobBoardPageController extends PageController
         return (!is_null($countryIds));
     }
 
+    public function IsSelectedTitle()
+    {
+        $titleID = $this->getRequest()->getVar(self::TITLE_ID);
+        return (!is_null($titleID));
+    }
+
     /**
      * @return string
      */
